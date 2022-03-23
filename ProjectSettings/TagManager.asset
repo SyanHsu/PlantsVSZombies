@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: UI
+    uniqueID: 2065862519
+    locked: 0
+  - name: Plant
+    uniqueID: 1122151865
+    locked: 0
+  - name: Zombie
+    uniqueID: 2875993793
+    locked: 0
+  - name: Sun
+    uniqueID: 2318208667
+    locked: 0

@@ -10,7 +10,7 @@ public class SunFlower : MonoBehaviour
     /// <summary>
     /// 开始生成阳光的时间
     /// </summary>
-    public float startTime;
+    private float startTime;
 
     /// <summary>
     /// 开始生成阳光的时间最小值
@@ -24,7 +24,7 @@ public class SunFlower : MonoBehaviour
     /// <summary>
     /// 阳光生成间隔
     /// </summary>
-    public float sunInterval = 24f;
+    private float sunInterval = 24f;
 
     /// <summary>
     /// 生成的阳光x轴相对坐标
@@ -67,7 +67,10 @@ public class SunFlower : MonoBehaviour
 
     private void Start()
     {
+        // 一定范围内随机开始阳光的时间
         startTime = Random.Range(startTimeMin, startTimeMax);
+
+        // 重复调用产生阳光的方法
         InvokeRepeating("CreateSun", startTime, sunInterval);
     }
 
@@ -76,8 +79,11 @@ public class SunFlower : MonoBehaviour
     /// </summary>
     private void CreateSun()
     {
-        GameObject createdSun = Instantiate<GameObject>(GameController.Instance.Prefab_Sun,
+        // 生成阳光的物体
+        GameObject createdSun = Instantiate<GameObject>(GameController.Instance.gameConf.Prefab_Sun,
             transform.position, Quaternion.identity);
+
+        // 随机设置阳光产生的位置（向日葵附近）与高度并将值传递给阳光
         createPosX = Random.Range(createPosXMin, createPosXMax);
         createPosY = Random.Range(createPosYMin, createPosYMax);
         raiseHeight = Random.Range(raiseHeightMin, raiseHeightMax);

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dab4c838d05561b469ee9fd9b98fbd80, type: 3}
+  m_Name: PlantConf
+  m_EditorClassIdentifier: 
+  plantInfos:
+  - plantType: 0
+    prefab: {fileID: 3686653990327604859, guid: da87677b0471ece45bfd8f84c8dc2835, type: 3}
+    image: {fileID: 8130838799734908660, guid: c085271b02d6f9f4eaa5a0c67bf99f14, type: 3}
+    translucentImage: {fileID: 4135653880128479956, guid: 685386391ab94d54ebfbde63834089ce, type: 3}
+    neededSun: 50
+    CDTime: 7.5
+  - plantType: 1
+    prefab: {fileID: 7762767586038880311, guid: c893c58dd8fd29b4fb68b8b0f4ee0c75, type: 3}
+    image: {fileID: 152336073608945278, guid: 7611725318ec671438e7e0bf42917d33, type: 3}
+    translucentImage: {fileID: 5569725136439453991, guid: f0a5f28e65bb9e94ba8f2097cefc6c80, type: 3}
+    neededSun: 100
+    CDTime: 7.5

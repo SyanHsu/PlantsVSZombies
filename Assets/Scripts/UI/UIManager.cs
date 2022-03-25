@@ -18,10 +18,17 @@ public class UIManager : MonoBehaviour
     /// </summary>
     private Text sunNumText;
 
+    /// <summary>
+    /// UI—Ùπ‚Œª÷√
+    /// </summary>
+    public Vector3 UISunPosition;
+
     private void Awake()
     {
         Instance = this;
         sunNumText = transform.Find("MainPanel/Text_SunNum").GetComponent<Text>();
+        UISunPosition = new Vector3(transform.Find("MainPanel/UISun").position.x, 
+            transform.Find("MainPanel/UISun").position.y);
     }
 
     public void UpdateSunNum(int sunNum)

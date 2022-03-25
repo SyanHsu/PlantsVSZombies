@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Plant
+  - Sun
   layers:
   - Default
   - TransparentFX
@@ -52,4 +54,7 @@ TagManager:
     locked: 0
   - name: Sun
     uniqueID: 2318208667
+    locked: 0
+  - name: Picture
+    uniqueID: 3201102603
     locked: 0

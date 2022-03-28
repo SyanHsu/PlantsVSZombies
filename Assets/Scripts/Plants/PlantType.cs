@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public enum PlantType
 {
+    Default,
     SunFlower,   // ÏòÈÕ¿û
     PeaShooter   // Íã¶¹ÉäÊÖ
 }

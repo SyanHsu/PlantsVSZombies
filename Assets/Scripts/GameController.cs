@@ -23,11 +23,17 @@ public class GameController : MonoBehaviour
         gameConf = Resources.Load<GameConf>("GameConf");
     }
 
+    /// <summary>
+    /// 将鼠标指针改为点击链接
+    /// </summary>
     public void SetCursorLink()
     {
         Cursor.SetCursor(gameConf.Texture_LinkCursor, Vector2.zero, CursorMode.Auto);
     }
 
+    /// <summary>
+    /// 将鼠标指针设为默认
+    /// </summary>
     public void SetCursorNormal()
     {
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);

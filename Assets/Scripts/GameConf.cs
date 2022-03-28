@@ -9,11 +9,6 @@ using UnityEngine;
 public class GameConf : ScriptableObject
 {
     /// <summary>
-    /// 阳光预制体
-    /// </summary>
-    public GameObject Prefab_Sun;
-
-    /// <summary>
     /// 点击时的鼠标指针预制体
     /// </summary>
     public Texture2D Texture_LinkCursor;

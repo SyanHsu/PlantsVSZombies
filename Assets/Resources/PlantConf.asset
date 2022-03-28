@@ -13,15 +13,20 @@ MonoBehaviour:
   m_Name: PlantConf
   m_EditorClassIdentifier: 
   plantInfos:
-  - plantType: 0
-    prefab: {fileID: 3686653990327604859, guid: da87677b0471ece45bfd8f84c8dc2835, type: 3}
+  - name: "\u5411\u65E5\u8475"
+    plantType: 1
+    prefab: {fileID: 3273100081166847269, guid: da87677b0471ece45bfd8f84c8dc2835, type: 3}
     image: {fileID: 8130838799734908660, guid: c085271b02d6f9f4eaa5a0c67bf99f14, type: 3}
-    translucentImage: {fileID: 4135653880128479956, guid: 685386391ab94d54ebfbde63834089ce, type: 3}
+    card: {fileID: 21300000, guid: 14bb4fe5b36d50b4c90cc7015a5e7ffc, type: 3}
     neededSun: 50
     CDTime: 7.5
-  - plantType: 1
+    HP: 300
+  - name: "\u5411\u65E5\u8475"
+    plantType: 2
     prefab: {fileID: 7762767586038880311, guid: c893c58dd8fd29b4fb68b8b0f4ee0c75, type: 3}
     image: {fileID: 152336073608945278, guid: 7611725318ec671438e7e0bf42917d33, type: 3}
-    translucentImage: {fileID: 5569725136439453991, guid: f0a5f28e65bb9e94ba8f2097cefc6c80, type: 3}
+    card: {fileID: 21300000, guid: 187e132254569634e9617dbadc094afe, type: 3}
     neededSun: 100
     CDTime: 7.5
+    HP: 300
+  Prefab_Sun: {fileID: 6344628602562050063, guid: 903a0c02eb52d22428424f67b1bf3f8f, type: 3}

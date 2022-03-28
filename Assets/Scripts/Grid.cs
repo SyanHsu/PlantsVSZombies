@@ -32,6 +32,11 @@ public class Grid
     public bool planted;
 
     /// <summary>
+    /// 种植的植物
+    /// </summary>
+    public GameObject plantedPlant;
+
+    /// <summary>
     /// 网格构造函数
     /// </summary>
     /// <param name="point">网格坐标</param>
@@ -41,5 +46,6 @@ public class Grid
         this.point = point;
         this.pos = pos;
         planted = false;
+        plantedPlant = null;
     }
 }

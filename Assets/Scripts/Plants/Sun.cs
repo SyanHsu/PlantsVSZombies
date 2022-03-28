@@ -78,14 +78,14 @@ public class Sun : MonoBehaviour
     private float stopFallingPosY;
 
     /// <summary>
-    /// 升起速度
-    /// </summary>
-    private float raiseSpeed = 10f;
-
-    /// <summary>
     /// 下落速度
     /// </summary>
     private float fallSpeed;
+
+    /// <summary>
+    /// 鼠标指针是否被改变
+    /// </summary>
+    private bool cursorChanged = false;
 
     private void Start()
     {
@@ -115,7 +115,7 @@ public class Sun : MonoBehaviour
         // 调整参数
         raisePos = pos;
         stopFallingPosY = posY;
-        fallSpeed = 5f;
+        fallSpeed = 8f;
 
         // 初始状态为升起
         State = SunState.Raising;
@@ -142,6 +142,9 @@ public class Sun : MonoBehaviour
     /// </summary>
     private IEnumerator Raise()
     {
+        // 升起速度
+        float raiseSpeed = 10f;
+
         // 若未升到指定高度，则继续升起
         while (Vector3.Distance(transform.position, raisePos) > 0.1f)
         {
@@ -159,19 +162,27 @@ public class Sun : MonoBehaviour
     /// </summary>
     private IEnumerator Fly()
     {
-        float flySpeed = 8f;
+        float flySpeed = 20f;
         SpriteRenderer sunSprite = GetComponent<SpriteRenderer>();
-        Color transColor = new Color(1, 1, 1, 0);
         float leftDist;
         // 若未到UI处，则继续飞
         do
         {
-            transform.position = Vector3.Lerp(transform.position, UIManager.Instance.UISunPosition,
-                flySpeed * Time.deltaTime);
             leftDist = Vector3.Distance(transform.position, UIManager.Instance.UISunPosition);
-            if (leftDist < 0.5f) sunSprite.material.color = new Color(1, 1, 1, leftDist + 0.4f);
+            if (leftDist < 1f)
+            {
+                sunSprite.material.color = new Color(1, 1, 1, 0.4f + leftDist / 2);
+                transform.localScale = new Vector3(0.5f + leftDist / 2, 0.5f + leftDist / 2);
+                transform.Translate(Vector3.Normalize(UIManager.Instance.UISunPosition - 
+                    transform.position) * flySpeed * leftDist * Time.deltaTime);
+            }
+            else transform.Translate(Vector3.Normalize(UIManager.Instance.UISunPosition - 
+                    transform.position) * flySpeed * Time.deltaTime);
             yield return 0;
-        } while (leftDist > 0.2f);
+        } while (leftDist > 0.1f);
+
+        // 游戏的太阳数增加
+        PlayerStatus.Instance.SunNum += sunNum;
 
         // 销毁自身
         Destroy(gameObject);
@@ -186,6 +197,7 @@ public class Sun : MonoBehaviour
 
         // 设置鼠标指针
         GameController.Instance.SetCursorLink();
+        cursorChanged = true;
     }
 
     /// <summary>
@@ -197,6 +209,7 @@ public class Sun : MonoBehaviour
 
         // 设置鼠标指针
         GameController.Instance.SetCursorNormal();
+        cursorChanged = false;
     }
 
     /// <summary>
@@ -208,8 +221,13 @@ public class Sun : MonoBehaviour
 
         // 状态更改为飞行
         State = SunState.Flying;
+    }
 
-        // 游戏的太阳数增加
-        PlayerStatus.Instance.SunNum += sunNum;
+    private void OnDestroy()
+    {
+        if (cursorChanged)
+        {
+            GameController.Instance.SetCursorNormal();
+        }
     }
 }

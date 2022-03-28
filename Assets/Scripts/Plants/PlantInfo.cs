@@ -9,6 +9,11 @@ using UnityEngine;
 public class PlantInfo
 {
     /// <summary>
+    /// 名字
+    /// </summary>
+    public string name;
+
+    /// <summary>
     /// 植物种类
     /// </summary>
     public PlantType plantType;
@@ -24,9 +29,9 @@ public class PlantInfo
     public GameObject image;
 
     /// <summary>
-    /// 植物半透明图片
+    /// 卡片图片
     /// </summary>
-    public GameObject translucentImage;
+    public Sprite card;
 
     /// <summary>
     /// 需要的阳光
@@ -37,4 +42,9 @@ public class PlantInfo
     /// 卡片冷却时间
     /// </summary>
     public float CDTime;
+
+    /// <summary>
+    /// 生命值
+    /// </summary>
+    public int HP;
 }

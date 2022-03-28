@@ -12,7 +12,10 @@ public class PlantManager : MonoBehaviour
     /// </summary>
     public static PlantManager Instance;
 
-    private PlantConf plantConf;
+    /// <summary>
+    /// 植物配置
+    /// </summary>
+    public PlantConf plantConf;
 
     /// <summary>
     /// 植物字典，通过植物种类找植物信息
@@ -36,5 +39,19 @@ public class PlantManager : MonoBehaviour
         {
             plantDict.Add(item.plantType, item);
         }
+    }
+
+    /// <summary>
+    /// 种植植物
+    /// </summary>
+    public void Plant(PlantInfo plantInfo, Grid grid)
+    {
+        GameObject plant = Instantiate<GameObject>(plantInfo.prefab, grid.pos,
+                        Quaternion.identity, transform);
+        plant.GetComponent<Plant>().HP = plantInfo.HP;
+        plant.GetComponent<Plant>().grid = grid;
+        grid.planted = true;
+        grid.plantedPlant = plant;
+        PlayerStatus.Instance.SunNum -= plantInfo.neededSun;
     }
 }

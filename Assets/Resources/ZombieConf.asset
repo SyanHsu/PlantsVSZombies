@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfdc604c404ab7c4380ce3ea136d25ce, type: 3}
+  m_Name: ZombieConf
+  m_EditorClassIdentifier: 
+  zombieInfos:
+  - name: "\u666E\u901A\u50F5\u5C38"
+    zombieType: 0
+    prefab: {fileID: 0}
+    HP: 270
+    speed: 0.24
+    damage: 40
+    attackInterval: 0.4

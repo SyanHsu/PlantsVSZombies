@@ -31,8 +31,15 @@ public class PeaShooter : Plant
         {
             state = value;
             // 当设置卡片状态时调用相应的协程
-            if (state == PeaShooterState.Shooting)
-                StartCoroutine(Shoot());
+            switch(state)
+            {
+                case PeaShooterState.Idle:
+                    StartCoroutine(Idle());
+                    break;
+                case PeaShooterState.Shooting:
+                    StartCoroutine(Shoot());
+                    break;
+            }
         }
     }
 
@@ -41,16 +48,51 @@ public class PeaShooter : Plant
     /// </summary>
     private float shootInterval = 1.4f;
 
-    private void Update()
+    /// <summary>
+    /// 射击点
+    /// </summary>
+    private Transform firePoint;
+
+    private void Start()
     {
-        
+        firePoint = transform.Find("FirePoint");
+        State = PeaShooterState.Idle;
     }
 
+    /// <summary>
+    /// 闲置
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator Idle()
+    {
+        while (State == PeaShooterState.Idle)
+        {
+            yield return new WaitForSeconds(0.1f);
+            if (CheckZombie()) State = PeaShooterState.Shooting;
+        }
+    }
+
+    /// <summary>
+    /// 射击
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator Shoot()
     {
         while (State == PeaShooterState.Shooting)
         {
             yield return new WaitForSeconds(shootInterval);
+            Instantiate<GameObject>(PlantManager.Instance.plantConf.peaPrefab, 
+                firePoint.position, Quaternion.identity, transform);
+            if (!CheckZombie()) State = PeaShooterState.Idle;
         }
+    }
+
+    /// <summary>
+    /// 判断同一行是否有僵尸
+    /// </summary>
+    /// <returns>同一行是否有僵尸</returns>
+    private bool CheckZombie()
+    {
+        return true;
     }
 }

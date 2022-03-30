@@ -49,7 +49,7 @@ public class PlantManager : MonoBehaviour
         GameObject plant = Instantiate<GameObject>(plantInfo.prefab, grid.pos,
                         Quaternion.identity, transform);
         plant.GetComponent<Plant>().HP = plantInfo.HP;
-        plant.GetComponent<Plant>().grid = grid;
+        //plant.GetComponent<Plant>().grid = grid;
         grid.planted = true;
         grid.plantedPlant = plant;
         PlayerStatus.Instance.SunNum -= plantInfo.neededSun;

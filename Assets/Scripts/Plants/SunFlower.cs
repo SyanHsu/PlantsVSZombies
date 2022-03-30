@@ -71,6 +71,8 @@ public class SunFlower : Plant
 
     private void Start()
     {
+        HP = 300;
+
         // 一定范围内随机开始阳光的时间
         startTime = Random.Range(startTimeMin, startTimeMax);
 
@@ -90,7 +92,7 @@ public class SunFlower : Plant
             yield return new WaitForSeconds(redTime);
 
             // 生成阳光的物体
-            GameObject createdSun = Instantiate<GameObject>(PlantManager.Instance.plantConf.Prefab_Sun,
+            GameObject createdSun = Instantiate<GameObject>(PlantManager.Instance.plantConf.sunPrefab,
                 transform.position, Quaternion.identity);
             // 随机设置阳光产生的位置（向日葵附近）与高度并将值传递给阳光
             createPosX = Random.Range(createPosXMin, createPosXMax);

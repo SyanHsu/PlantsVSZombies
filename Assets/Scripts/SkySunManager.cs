@@ -59,7 +59,7 @@ public class SkySunManager : MonoBehaviour
         Vector3 createPos = new Vector3(createPosX, createPosY);
 
         // Éú³ÉÑô¹â
-        GameObject createdSun = Instantiate<GameObject>(PlantManager.Instance.plantConf.Prefab_Sun, 
+        GameObject createdSun = Instantiate<GameObject>(PlantManager.Instance.plantConf.sunPrefab, 
             createPos, Quaternion.identity, transform);
         createdSun.GetComponent<Sun>().SkySunInit(Random.Range(stopPosYMin, stopPosYMax));
     }

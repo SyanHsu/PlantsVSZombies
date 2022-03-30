@@ -29,7 +29,7 @@ public class PlayerStatus : MonoBehaviour
     /// <summary>
     /// 阳光数量变量
     /// </summary>
-    private int sunNum = 50;
+    public int sunNum = 100;
 
     /// <summary>
     /// 阳光数量属性

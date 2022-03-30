@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Plant
   - Sun
+  - LeftBoundary
+  - Pea
   layers:
   - Default
   - TransparentFX

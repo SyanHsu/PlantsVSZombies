@@ -15,5 +15,18 @@ public class Plant : MonoBehaviour
     /// <summary>
     /// 所在网格
     /// </summary>
-    public Grid grid;
+    //public Grid grid;
+
+    /// <summary>
+    /// 受到伤害
+    /// </summary>
+    /// <param name="damage">伤害值</param>
+    public void GetHurt(int damage)
+    {
+        HP -= damage;
+        if (HP <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
 }

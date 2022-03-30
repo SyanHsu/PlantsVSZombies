@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 /// <summary>
 /// UI植物卡片
 /// </summary>
-public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     /// <summary>
     /// 卡片状态枚举
@@ -85,6 +85,11 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     /// </summary>
     private bool showExpl;
 
+    /// <summary>
+    /// 鼠标按钮按下
+    /// </summary>
+    private int mouseButtonPressed;
+
     private void Start()
     {
         // 得到对应的图片组件
@@ -111,6 +116,9 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             // 得到对应的植物信息
             plantInfo = PlantManager.Instance.plantDict[plantType];
             grayImage.sprite = darkImage.sprite = brightImage.sprite = plantInfo.card;
+
+            // 灰图片组件的射线检测目标设为true
+            grayImage.raycastTarget = true;
 
             // 初始化卡片状态为CD中
             State = CardState.CDing;
@@ -229,8 +237,15 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 plantTranslucentImage.transform.position = grid.pos;
             }
 
+            if (mouseButtonPressed != -1)
+            {
+                if (Input.GetMouseButtonUp(mouseButtonPressed))
+                {
+                    mouseButtonPressed = -1;
+                }
+            }
             //按下鼠标左键时，若网格合理则种植植物，否则恢复可种植状态
-            if (Input.GetMouseButtonDown(0))
+            else if (Input.GetMouseButtonDown(0))
             {
                 Destroy(plantImage);
                 Destroy(plantTranslucentImage);
@@ -264,8 +279,6 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     /// <param name="eventData"></param>
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (PlayerStatus.Instance.state == PlayerStatus.PlayerState.Planting) return;
-
         // 显示解释信息
         showExpl = true;
 
@@ -274,39 +287,41 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private IEnumerator PointerStay()
     {
-        // 显示解释文字和背景
-        explGO.SetActive(true);
-
         while (showExpl)
         {
-            // 对应卡片不同状态调整文字和背景大小
-            switch (state)
+            if (PlayerStatus.Instance.state != PlayerStatus.PlayerState.Planting)
             {
-                case CardState.CDing:
-                    explGO.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(
-                        RectTransform.Axis.Horizontal, 90);
-                    explGO.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(
-                        RectTransform.Axis.Vertical, 34);
-                    explGO.GetComponentInChildren<Text>().text =
-                        "<color=red>重新装填中...</color>\n" + plantInfo.name;
-                    break;
-                case CardState.LackofSun:
-                    explGO.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(
-                        RectTransform.Axis.Horizontal, 105);
-                    explGO.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(
-                        RectTransform.Axis.Vertical, 34);
-                    explGO.GetComponentInChildren<Text>().text =
-                        "<color=red>没有足够的阳光</color>\n" + plantInfo.name;
-                    break;
-                case CardState.Plantable:
-                    explGO.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(
-                        RectTransform.Axis.Horizontal, 15 * brightImage.sprite.name.Length);
-                    explGO.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(
-                        RectTransform.Axis.Vertical, 17);
-                    explGO.GetComponentInChildren<Text>().text = plantInfo.name;
-                    // 设置鼠标指针
-                    GameController.Instance.SetCursorLink();
-                    break;
+                // 显示解释文字和背景
+                explGO.SetActive(true);
+                // 对应卡片不同状态调整文字和背景大小
+                switch (state)
+                {
+                    case CardState.CDing:
+                        explGO.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(
+                            RectTransform.Axis.Horizontal, 90);
+                        explGO.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(
+                            RectTransform.Axis.Vertical, 34);
+                        explGO.GetComponentInChildren<Text>().text =
+                            "<color=red>重新装填中...</color>\n" + plantInfo.name;
+                        break;
+                    case CardState.LackofSun:
+                        explGO.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(
+                            RectTransform.Axis.Horizontal, 105);
+                        explGO.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(
+                            RectTransform.Axis.Vertical, 34);
+                        explGO.GetComponentInChildren<Text>().text =
+                            "<color=red>没有足够的阳光</color>\n" + plantInfo.name;
+                        break;
+                    case CardState.Plantable:
+                        explGO.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(
+                            RectTransform.Axis.Horizontal, 15 * plantInfo.name.Length);
+                        explGO.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(
+                            RectTransform.Axis.Vertical, 17);
+                        explGO.GetComponentInChildren<Text>().text = plantInfo.name;
+                        // 设置鼠标指针
+                        GameController.Instance.SetCursorLink();
+                        break;
+                }
             }
             yield return 0;
         }
@@ -324,8 +339,6 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     /// <param name="eventData"></param>
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (PlayerStatus.Instance.state == PlayerStatus.PlayerState.Planting) return;
-
         // 不显示解释信息
         showExpl = false;
     }
@@ -334,15 +347,13 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     /// 鼠标点击
     /// </summary>
     /// <param name="eventData"></param>
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData eventData)
     {
         if (PlayerStatus.Instance.state == PlayerStatus.PlayerState.Planting) return;
 
         if (State != CardState.Plantable) return;
 
+        mouseButtonPressed = (int)eventData.button;
         State = CardState.Planting;
-
-        // 不显示解释信息
-        showExpl = false;
     }
 }

@@ -14,7 +14,12 @@ public class PlantConf : ScriptableObject
     public PlantInfo[] plantInfos;
 
     /// <summary>
+    /// 豌豆预制体
+    /// </summary>
+    public GameObject peaPrefab;
+
+    /// <summary>
     /// 阳光预制体
     /// </summary>
-    public GameObject Prefab_Sun;
+    public GameObject sunPrefab;
 }

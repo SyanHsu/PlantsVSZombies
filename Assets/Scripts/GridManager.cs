@@ -15,12 +15,12 @@ public class GridManager : MonoBehaviour
     /// <summary>
     /// x轴网格数目
     /// </summary>
-    private int gridNumX = 9;
+    public int gridNumX = 9;
 
     /// <summary>
     /// y轴网格数目
     /// </summary>
-    private int gridNumY = 5;
+    public int gridNumY = 5;
 
     /// <summary>
     /// 网格

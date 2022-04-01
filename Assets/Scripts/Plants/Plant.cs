@@ -15,7 +15,17 @@ public class Plant : MonoBehaviour
     /// <summary>
     /// 所在网格
     /// </summary>
-    //public Grid grid;
+    public Grid grid;
+
+    /// <summary>
+    /// 自身的SpriteRenderer组件
+    /// </summary>
+    protected SpriteRenderer spriteRenderer;
+
+    protected virtual void Start()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
     /// <summary>
     /// 受到伤害
@@ -24,9 +34,17 @@ public class Plant : MonoBehaviour
     public void GetHurt(int damage)
     {
         HP -= damage;
+        StartCoroutine(Shine());
         if (HP <= 0)
         {
-            Destroy(gameObject);
+            PlantManager.Instance.RemovePlant(this);
         }
+    }
+
+    protected IEnumerator Shine()
+    {
+        spriteRenderer.material.color = new Color(0.8f, 0.8f, 0.8f, 1);
+        yield return new WaitForSeconds(0.2f);
+        spriteRenderer.material.color = Color.white;
     }
 }

@@ -53,8 +53,10 @@ public class PeaShooter : Plant
     /// </summary>
     private Transform firePoint;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+
         firePoint = transform.Find("FirePoint");
         State = PeaShooterState.Idle;
     }

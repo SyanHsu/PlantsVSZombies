@@ -17,6 +17,7 @@ MonoBehaviour:
     zombieType: 0
     prefab: {fileID: 0}
     HP: 270
-    speed: 0.24
+    dieHP: 0
+    speed: 0.096
     damage: 40
     attackInterval: 0.4

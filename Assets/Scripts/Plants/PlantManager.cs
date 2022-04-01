@@ -49,9 +49,22 @@ public class PlantManager : MonoBehaviour
         GameObject plant = Instantiate<GameObject>(plantInfo.prefab, grid.pos,
                         Quaternion.identity, transform);
         plant.GetComponent<Plant>().HP = plantInfo.HP;
-        //plant.GetComponent<Plant>().grid = grid;
+        plant.GetComponent<Plant>().grid = grid;
         grid.planted = true;
-        grid.plantedPlant = plant;
+        grid.plantedPlant = plant.GetComponent<Plant>();
         PlayerStatus.Instance.SunNum -= plantInfo.neededSun;
+    }
+
+    /// <summary>
+    /// È¥³ýÖ²Îï
+    /// </summary>
+    public void RemovePlant(Plant plant)
+    {
+        if(plant.grid != null)
+        {
+            plant.grid.planted = false;
+            plant.grid.plantedPlant = null;
+        }
+        Destroy(plant.gameObject);
     }
 }

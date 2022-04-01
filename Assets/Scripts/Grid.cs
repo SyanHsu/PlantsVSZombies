@@ -34,7 +34,7 @@ public class Grid
     /// <summary>
     /// 种植的植物
     /// </summary>
-    public GameObject plantedPlant;
+    public Plant plantedPlant;
 
     /// <summary>
     /// 网格构造函数

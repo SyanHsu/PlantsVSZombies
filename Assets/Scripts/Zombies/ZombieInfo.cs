@@ -29,6 +29,11 @@ public class ZombieInfo
     public int HP;
 
     /// <summary>
+    /// 生命值
+    /// </summary>
+    public int dieHP;
+
+    /// <summary>
     /// 僵尸移动速度
     /// </summary>
     public float speed;

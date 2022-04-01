@@ -7,7 +7,8 @@ TagManager:
   - Plant
   - Sun
   - LeftBoundary
-  - Pea
+  - Bullet
+  - Zombie
   layers:
   - Default
   - TransparentFX
@@ -15,10 +16,10 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Plant
+  - Boundary
+  - Bullet
+  - Zombie
   - 
   - 
   - 
@@ -56,6 +57,9 @@ TagManager:
     locked: 0
   - name: Zombie
     uniqueID: 2875993793
+    locked: 0
+  - name: Bullet
+    uniqueID: 220114267
     locked: 0
   - name: Sun
     uniqueID: 2318208667

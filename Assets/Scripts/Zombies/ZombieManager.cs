@@ -23,12 +23,27 @@ public class ZombieManager : MonoBehaviour
     /// </summary>
     public Dictionary<ZombieType, ZombieInfo> zombieDict;
 
+    /// <summary>
+    /// ½©Ê¬µÄ²ã¼¶Ë³Ðò
+    /// </summary>
+    private int[] zombieLayerOrder;
+    /// <summary>
+    /// ½©Ê¬µÄ×î´ó²ã¼¶Ë³Ðò
+    /// </summary>
+    private int[] zombieMaxLayerOrder;
+
     private void Awake()
     {
         Instance = this;
         zombieConf = Resources.Load<ZombieConf>("ZombieConf");
         zombieDict = new Dictionary<ZombieType, ZombieInfo>();
         CreateDict();
+        zombieLayerOrder = new int[GridManager.Instance.gridNumY];
+        for (int i = 0; i < GridManager.Instance.gridNumY; i++)
+        {
+            zombieLayerOrder[i] = 100 * (GridManager.Instance.gridNumY - i - 1);
+            zombieMaxLayerOrder[i] = 100 * (GridManager.Instance.gridNumY - i);
+        }
     }
 
     /// <summary>

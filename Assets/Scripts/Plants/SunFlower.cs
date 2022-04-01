@@ -69,8 +69,10 @@ public class SunFlower : Plant
     /// </summary>
     private float raiseHeightMax = 1.2f;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+
         HP = 300;
 
         // 一定范围内随机开始阳光的时间
@@ -116,9 +118,6 @@ public class SunFlower : Plant
 
         // 每次改变的颜色值
         Color deltaColor = new Color(0, -0.1f / redTime, -0.1f / redTime, 0);
-
-        // 获取SpriteRenderer组件
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 
         while (timer < redTime)
         {

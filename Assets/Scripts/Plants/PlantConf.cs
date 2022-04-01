@@ -19,6 +19,11 @@ public class PlantConf : ScriptableObject
     public GameObject peaPrefab;
 
     /// <summary>
+    /// 豌豆击打特效图片
+    /// </summary>
+    public Sprite peaHitSprite;
+
+    /// <summary>
     /// 阳光预制体
     /// </summary>
     public GameObject sunPrefab;

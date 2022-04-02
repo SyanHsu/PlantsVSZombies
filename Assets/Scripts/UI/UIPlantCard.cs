@@ -73,7 +73,7 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     /// <summary>
     /// 植物种类
     /// </summary>
-    public PlantType plantType = PlantType.Default;
+    public PlantType plantType;
 
     /// <summary>
     /// 植物种类
@@ -90,7 +90,7 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     /// </summary>
     private int mouseButtonPressed;
 
-    private void Start()
+    private void Awake()
     {
         // 得到对应的图片组件
         Image[] images = GetComponentsInChildren<Image>();
@@ -110,19 +110,23 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             }
         }
         explGO = transform.Find("Explaination").gameObject;
+    }
 
-        if (plantType != PlantType.Default)
-        {
-            // 得到对应的植物信息
-            plantInfo = PlantManager.Instance.plantDict[plantType];
-            grayImage.sprite = darkImage.sprite = brightImage.sprite = plantInfo.card;
+    public void Init(PlantType plantType = PlantType.Default)
+    {
+        this.plantType = plantType;
+        if (plantType == PlantType.Default) return;
 
-            // 灰图片组件的射线检测目标设为true
-            grayImage.raycastTarget = true;
+        // 得到对应的植物信息
+        plantInfo = PlantManager.Instance.plantDict[plantType];
+        grayImage.sprite = darkImage.sprite = brightImage.sprite = plantInfo.card;
 
-            // 初始化卡片状态为CD中
-            State = CardState.CDing;
-        }
+        // 灰图片组件的射线检测目标设为true
+        grayImage.raycastTarget = true;
+
+        // 初始化卡片状态为可种植的或CD中
+        if (plantInfo.CDTime == 7.5f) State = CardState.LackofSun;
+        else State = CardState.CDing;
     }
 
     /// <summary>
@@ -198,13 +202,13 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         darkImage.fillAmount = 0;
 
         // 跟随鼠标的图片
-        GameObject plantImage = Instantiate<GameObject>(plantInfo.image, Vector3.zero, 
-            Quaternion.identity, PlantManager.Instance.transform);
+        GameObject plantImage = PoolManager.Instance.GetGameObject(plantInfo.image, Vector3.zero, PlantManager.Instance.transform);
+        plantImage.GetComponent<SpriteRenderer>().material.color = Color.white;
         plantImage.GetComponent<SpriteRenderer>().sortingOrder = 1;
         // 要种植处网格的半透明图片
-        GameObject plantTranslucentImage = Instantiate<GameObject>(plantInfo.image, Vector3.zero, 
-            Quaternion.identity, PlantManager.Instance.transform);
+        GameObject plantTranslucentImage = PoolManager.Instance.GetGameObject(plantInfo.image, Vector3.zero, PlantManager.Instance.transform);
         plantTranslucentImage.GetComponent<SpriteRenderer>().material.color = new Color(1, 1, 1, 0.6f);
+        plantImage.GetComponent<SpriteRenderer>().sortingOrder = 0;
 
         // 更改玩家状态
         PlayerStatus.Instance.state = PlayerStatus.PlayerState.Planting;
@@ -247,8 +251,8 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             //按下鼠标左键时，若网格合理则种植植物，否则恢复可种植状态
             else if (Input.GetMouseButtonDown(0))
             {
-                Destroy(plantImage);
-                Destroy(plantTranslucentImage);
+                PoolManager.Instance.PushGameObject(plantImage, plantInfo.image);
+                PoolManager.Instance.PushGameObject(plantTranslucentImage, plantInfo.image);
                 if (grid == null || grid.planted)
                 {
                     State = CardState.Plantable;
@@ -262,8 +266,8 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             // 按下鼠标右键时，恢复可种植状态
             else if (Input.GetMouseButtonDown(1))
             {
-                Destroy(plantImage);
-                Destroy(plantTranslucentImage);
+                PoolManager.Instance.PushGameObject(plantImage, plantInfo.image);
+                PoolManager.Instance.PushGameObject(plantTranslucentImage, plantInfo.image);
                 State = CardState.Plantable;
             }
             yield return 0;
@@ -319,7 +323,7 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                             RectTransform.Axis.Vertical, 17);
                         explGO.GetComponentInChildren<Text>().text = plantInfo.name;
                         // 设置鼠标指针
-                        GameController.Instance.SetCursorLink();
+                        CursorManager.Instance.SetCursorLink();
                         break;
                 }
             }
@@ -330,7 +334,7 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         explGO.SetActive(false);
 
         // 设置鼠标指针
-        GameController.Instance.SetCursorNormal();
+        CursorManager.Instance.SetCursorNormal();
     }
 
     /// <summary>

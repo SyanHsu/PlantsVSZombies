@@ -27,6 +27,11 @@ public class Grid
     public Vector2 pos;
 
     /// <summary>
+    /// 左边界x坐标
+    /// </summary>
+    public float leftPosX;
+
+    /// <summary>
     /// 已被种植
     /// </summary>
     public bool planted;
@@ -45,6 +50,7 @@ public class Grid
     {
         this.point = point;
         this.pos = pos;
+        leftPosX = pos.x - lengthX / 2;
         planted = false;
         plantedPlant = null;
     }

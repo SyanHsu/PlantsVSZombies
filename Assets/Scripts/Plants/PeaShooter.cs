@@ -49,15 +49,25 @@ public class PeaShooter : Plant
     private float shootInterval = 1.4f;
 
     /// <summary>
+    /// 子弹种类
+    /// </summary>
+    private BulletInfo bulletInfo;
+
+    /// <summary>
     /// 射击点
     /// </summary>
     private Transform firePoint;
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
-
+        base.Awake();
         firePoint = transform.Find("FirePoint");
+    }
+
+    public override void Init(PlantInfo plantInfo, Grid grid)
+    {
+        base.Init(plantInfo, grid);
+        bulletInfo = PlantManager.Instance.bulletDict[BulletType.Pea];
         State = PeaShooterState.Idle;
     }
 
@@ -69,7 +79,7 @@ public class PeaShooter : Plant
     {
         while (State == PeaShooterState.Idle)
         {
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.2f);
             if (CheckZombie()) State = PeaShooterState.Shooting;
         }
     }
@@ -83,9 +93,14 @@ public class PeaShooter : Plant
         while (State == PeaShooterState.Shooting)
         {
             yield return new WaitForSeconds(shootInterval);
-            Instantiate<GameObject>(PlantManager.Instance.plantConf.peaPrefab, 
-                firePoint.position, Quaternion.identity, transform);
-            if (!CheckZombie()) State = PeaShooterState.Idle;
+            if (!CheckZombie())
+            {
+                State = PeaShooterState.Idle;
+                break;
+            }
+            Bullet bullet = PoolManager.Instance.GetGameObject(bulletInfo.prefab, 
+                firePoint.position, BulletManager.Instance.transform).GetComponent<Bullet>();
+            bullet.Init(bulletInfo);
         }
     }
 
@@ -95,6 +110,11 @@ public class PeaShooter : Plant
     /// <returns>同一行是否有僵尸</returns>
     private bool CheckZombie()
     {
-        return true;
+        foreach (var item in ZombieManager.Instance.zombieLists[(int)grid.point.y])
+        {
+            if (item.transform.position.x >= grid.leftPosX)
+                return true;
+        }
+        return false;
     }
 }

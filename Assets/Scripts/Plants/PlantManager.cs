@@ -22,11 +22,17 @@ public class PlantManager : MonoBehaviour
     /// </summary>
     public Dictionary<PlantType, PlantInfo> plantDict;
 
+    /// <summary>
+    /// 子弹字典，通过子弹种类找子弹信息
+    /// </summary>
+    public Dictionary<BulletType, BulletInfo> bulletDict;
+
     private void Awake()
     {
         Instance = this;
         plantConf = Resources.Load<PlantConf>("PlantConf");
         plantDict = new Dictionary<PlantType, PlantInfo>();
+        bulletDict = new Dictionary<BulletType, BulletInfo>();
         CreateDict();
     }
 
@@ -39,6 +45,10 @@ public class PlantManager : MonoBehaviour
         {
             plantDict.Add(item.plantType, item);
         }
+        foreach (var item in plantConf.bulletInfos)
+        {
+            bulletDict.Add(item.bulletType, item);
+        }
     }
 
     /// <summary>
@@ -46,10 +56,8 @@ public class PlantManager : MonoBehaviour
     /// </summary>
     public void Plant(PlantInfo plantInfo, Grid grid)
     {
-        GameObject plant = Instantiate<GameObject>(plantInfo.prefab, grid.pos,
-                        Quaternion.identity, transform);
-        plant.GetComponent<Plant>().HP = plantInfo.HP;
-        plant.GetComponent<Plant>().grid = grid;
+        GameObject plant = PoolManager.Instance.GetGameObject(plantInfo.prefab, grid.pos, transform);
+        plant.GetComponent<Plant>().Init(plantInfo, grid);
         grid.planted = true;
         grid.plantedPlant = plant.GetComponent<Plant>();
         PlayerStatus.Instance.SunNum -= plantInfo.neededSun;
@@ -65,6 +73,6 @@ public class PlantManager : MonoBehaviour
             plant.grid.planted = false;
             plant.grid.plantedPlant = null;
         }
-        Destroy(plant.gameObject);
+        PoolManager.Instance.PushGameObject(plant.gameObject, plant.plantInfo.prefab);
     }
 }

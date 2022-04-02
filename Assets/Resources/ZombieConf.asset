@@ -15,9 +15,9 @@ MonoBehaviour:
   zombieInfos:
   - name: "\u666E\u901A\u50F5\u5C38"
     zombieType: 0
-    prefab: {fileID: 0}
+    prefab: {fileID: 2263245712716217238, guid: bba888d881042fe4d995408ecbbda6fe, type: 3}
     HP: 270
-    dieHP: 0
-    speed: 0.096
+    dieHP: 89
+    speed: 0.25
     damage: 40
     attackInterval: 0.4

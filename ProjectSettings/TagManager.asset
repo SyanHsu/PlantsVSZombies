@@ -9,6 +9,7 @@ TagManager:
   - LeftBoundary
   - Bullet
   - Zombie
+  - RightBoundary
   layers:
   - Default
   - TransparentFX

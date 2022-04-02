@@ -14,14 +14,9 @@ public class PlantConf : ScriptableObject
     public PlantInfo[] plantInfos;
 
     /// <summary>
-    /// 豌豆预制体
+    /// 各种子弹信息
     /// </summary>
-    public GameObject peaPrefab;
-
-    /// <summary>
-    /// 豌豆击打特效图片
-    /// </summary>
-    public Sprite peaHitSprite;
+    public BulletInfo[] bulletInfos;
 
     /// <summary>
     /// 阳光预制体

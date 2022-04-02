@@ -69,11 +69,9 @@ public class SunFlower : Plant
     /// </summary>
     private float raiseHeightMax = 1.2f;
 
-    protected override void Start()
+    public override void Init(PlantInfo plantInfo, Grid grid)
     {
-        base.Start();
-
-        HP = 300;
+        base.Init(plantInfo, grid);
 
         // 一定范围内随机开始阳光的时间
         startTime = Random.Range(startTimeMin, startTimeMax);
@@ -93,16 +91,17 @@ public class SunFlower : Plant
             StartCoroutine(TurningRed());
             yield return new WaitForSeconds(redTime);
 
-            // 生成阳光的物体
-            GameObject createdSun = Instantiate<GameObject>(PlantManager.Instance.plantConf.sunPrefab,
-                transform.position, Quaternion.identity);
+            // 生成阳光
+            Sun createdSun = PoolManager.Instance.GetGameObject(PlantManager.Instance.plantConf.sunPrefab,
+                transform.position, PlantSunManager.Instance.transform).GetComponent<Sun>();
+            
             // 随机设置阳光产生的位置（向日葵附近）与高度并将值传递给阳光
             createPosX = Random.Range(createPosXMin, createPosXMax);
             createPosY = Random.Range(createPosYMin, createPosYMax);
             raiseHeight = Random.Range(raiseHeightMin, raiseHeightMax);
             Vector3 raisePos = new Vector3(transform.position.x + createPosX,
                 transform.position.y + raiseHeight);
-            createdSun.GetComponent<Sun>().PlantSunInit(raisePos, transform.position.y + createPosY);
+            createdSun.PlantSunInit(raisePos, transform.position.y + createPosY);
 
             yield return new WaitForSeconds(sunInterval - startTime);
         }

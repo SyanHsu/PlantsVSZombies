@@ -47,7 +47,7 @@ public class Sun : MonoBehaviour
             {
                 case SunState.Idle:
                     // 一定时间后销毁自身
-                    Destroy(gameObject, maxStayTime);
+                    StartCoroutine(Waiting());
                     break;
                 case SunState.Falling:
                     StartCoroutine(Fall());
@@ -85,11 +85,26 @@ public class Sun : MonoBehaviour
     /// <summary>
     /// 鼠标指针是否被改变
     /// </summary>
-    private bool cursorChanged = false;
+    public bool cursorChanged;
 
-    private void Start()
+    /// <summary>
+    /// 阳光的SpriteRenderer组件
+    /// </summary>
+    private SpriteRenderer sunSprite;
+
+    private void Awake()
     {
-        GetComponent<SpriteRenderer>().sortingOrder = sunSortingLayer++;
+        sunSprite = GetComponent<SpriteRenderer>();
+    }
+
+    private void Init(float posY)
+    {
+        sunSprite.sortingOrder = sunSortingLayer++;
+        if (sunSortingLayer == 100) sunSortingLayer = 0;
+        sunSprite.material.color = Color.white;
+        transform.localScale = Vector3.one;
+        cursorChanged = false;
+        stopFallingPosY = posY;
     }
 
     /// <summary>
@@ -98,8 +113,8 @@ public class Sun : MonoBehaviour
     /// <param name="posY">阳光停止掉落的位置</param>
     public void SkySunInit(float posY)
     {
-        // 调整参数
-        stopFallingPosY = posY;
+        // 设置参数
+        Init(posY);
         fallSpeed = 1f;
 
         // 初始状态为下落
@@ -112,9 +127,9 @@ public class Sun : MonoBehaviour
     /// <param name="posY">阳光停止掉落的位置</param>
     public void PlantSunInit(Vector3 pos, float posY)
     {
-        // 调整参数
+        // 设置参数
+        Init(posY);
         raisePos = pos;
-        stopFallingPosY = posY;
         fallSpeed = 8f;
 
         // 初始状态为升起
@@ -163,7 +178,6 @@ public class Sun : MonoBehaviour
     private IEnumerator Fly()
     {
         float flySpeed = 20f;
-        SpriteRenderer sunSprite = GetComponent<SpriteRenderer>();
         float leftDist;
         // 若未到UI处，则继续飞
         do
@@ -185,7 +199,7 @@ public class Sun : MonoBehaviour
         PlayerStatus.Instance.SunNum += sunNum;
 
         // 销毁自身
-        Destroy(gameObject);
+        SelfDestroy();
     }
 
     /// <summary>
@@ -196,7 +210,7 @@ public class Sun : MonoBehaviour
         if (PlayerStatus.Instance.state == PlayerStatus.PlayerState.Planting) return;
 
         // 设置鼠标指针
-        GameController.Instance.SetCursorLink();
+        CursorManager.Instance.SetCursorLink();
         cursorChanged = true;
     }
 
@@ -208,7 +222,7 @@ public class Sun : MonoBehaviour
         if (PlayerStatus.Instance.state == PlayerStatus.PlayerState.Planting) return;
 
         // 设置鼠标指针
-        GameController.Instance.SetCursorNormal();
+        CursorManager.Instance.SetCursorNormal();
         cursorChanged = false;
     }
 
@@ -223,11 +237,19 @@ public class Sun : MonoBehaviour
         State = SunState.Flying;
     }
 
-    private void OnDestroy()
+    private IEnumerator Waiting()
+    {
+        yield return new WaitForSeconds(maxStayTime);
+        SelfDestroy();
+    }
+
+    private void SelfDestroy()
     {
         if (cursorChanged)
         {
-            GameController.Instance.SetCursorNormal();
+            CursorManager.Instance.SetCursorNormal();
         }
+        StopAllCoroutines();
+        PoolManager.Instance.PushGameObject(gameObject, PlantManager.Instance.plantConf.sunPrefab);
     }
 }

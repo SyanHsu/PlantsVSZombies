@@ -8,6 +8,11 @@ using UnityEngine;
 public class SkySunManager : MonoBehaviour
 {
     /// <summary>
+    /// 单例模式
+    /// </summary>
+    public static SkySunManager Instance;
+
+    /// <summary>
     /// 开始生成阳光的时间
     /// </summary>
     private float startTime = 7f;
@@ -44,7 +49,12 @@ public class SkySunManager : MonoBehaviour
     /// </summary>
     private float stopPosYMax = 2.5f;
 
-    private void Start()
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    public void Init()
     {
         InvokeRepeating("CreateSun", startTime, sunInterval);
     }
@@ -59,8 +69,8 @@ public class SkySunManager : MonoBehaviour
         Vector3 createPos = new Vector3(createPosX, createPosY);
 
         // 生成阳光
-        GameObject createdSun = Instantiate<GameObject>(PlantManager.Instance.plantConf.sunPrefab, 
-            createPos, Quaternion.identity, transform);
-        createdSun.GetComponent<Sun>().SkySunInit(Random.Range(stopPosYMin, stopPosYMax));
+        Sun createdSun = PoolManager.Instance.GetGameObject
+            (PlantManager.Instance.plantConf.sunPrefab, createPos, transform).GetComponent<Sun>();
+        createdSun.SkySunInit(Random.Range(stopPosYMin, stopPosYMax));
     }
 }

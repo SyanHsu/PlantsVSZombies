@@ -43,9 +43,7 @@ public class GridManager : MonoBehaviour
         {
             for (int j = 0; j < gridNumY; j++)
             {
-                grid[i, j] = new Grid(new Vector2(i, j), 
-                    new Vector2(transform.position.x + Grid.lengthX * i, 
-                    transform.position.y + Grid.lengthY * j));
+                grid[i, j] = new Grid(new Vector2(i, j), new Vector2(GetPosX(i), GetPosY(j)));
             }
         }
     }
@@ -59,7 +57,6 @@ public class GridManager : MonoBehaviour
         // 计算最近的网格坐标
         int pointX = (int)Mathf.Round((pos.x - transform.position.x) / Grid.lengthX);
         int pointY = (int)Mathf.Round((pos.y - transform.position.y) / Grid.lengthY);
-        //print("mousePos : " + mousePos + ", point : " + pointX + " " + pointY);
 
         // 若坐标符合则返回
         if (pointX >= 0 && pointX < gridNumX && pointY >= 0 && pointY < gridNumY)
@@ -67,5 +64,23 @@ public class GridManager : MonoBehaviour
             return grid[pointX, pointY];
         }
         else return null;
+    }
+
+    /// <summary>
+    /// 由x轴列数计算x轴坐标
+    /// </summary>
+    /// <returns>x轴坐标</returns>
+    public float GetPosX(int col)
+    {
+        return transform.position.x + Grid.lengthX * col;
+    }
+
+    /// <summary>
+    /// 由y轴行数计算y轴坐标
+    /// </summary>
+    /// <returns>y轴坐标</returns>
+    public float GetPosY(int row)
+    {
+        return transform.position.y + Grid.lengthY * row;
     }
 }

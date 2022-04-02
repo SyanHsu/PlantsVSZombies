@@ -8,9 +8,14 @@ using UnityEngine;
 public class Plant : MonoBehaviour
 {
     /// <summary>
-    /// 生命值
+    /// 植物信息
     /// </summary>
-    public int HP;
+    public PlantInfo plantInfo;
+
+    /// <summary>
+    /// 当前生命值
+    /// </summary>
+    public int currentHP;
 
     /// <summary>
     /// 所在网格
@@ -22,9 +27,17 @@ public class Plant : MonoBehaviour
     /// </summary>
     protected SpriteRenderer spriteRenderer;
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    public virtual void Init(PlantInfo plantInfo, Grid grid)
+    {
+        this.plantInfo = plantInfo;
+        this.grid = grid;
+        currentHP = plantInfo.HP;
+        spriteRenderer.material.color = Color.white;
     }
 
     /// <summary>
@@ -33,11 +46,12 @@ public class Plant : MonoBehaviour
     /// <param name="damage">伤害值</param>
     public void GetHurt(int damage)
     {
-        HP -= damage;
+        if (currentHP <= 0) return;
+        currentHP -= damage;
         StartCoroutine(Shine());
-        if (HP <= 0)
+        if (currentHP <= 0)
         {
-            PlantManager.Instance.RemovePlant(this);
+            SelfDestroy();
         }
     }
 
@@ -46,5 +60,11 @@ public class Plant : MonoBehaviour
         spriteRenderer.material.color = new Color(0.8f, 0.8f, 0.8f, 1);
         yield return new WaitForSeconds(0.2f);
         spriteRenderer.material.color = Color.white;
+    }
+
+    private void SelfDestroy()
+    {
+        StopAllCoroutines();
+        PlantManager.Instance.RemovePlant(this);
     }
 }

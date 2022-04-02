@@ -9,38 +9,24 @@ using UnityEngine;
 public class Zombie : MonoBehaviour
 {
     /// <summary>
-    /// 生命值
+    /// 僵尸信息
     /// </summary>
-    public int HP = 270;
+    public ZombieInfo zombieInfo;
 
     /// <summary>
-    /// 死亡生命值
+    /// 当前生命值
     /// </summary>
-    public int dieHP = 89;
+    public int currentHP;
 
     /// <summary>
-    /// 僵尸移动速度
+    /// 处于的行数
     /// </summary>
-    public float speed = 0.2f;
-
-    /// <summary>
-    /// 僵尸单次伤害
-    /// </summary>
-    public int damage = 60;
-
-    /// <summary>
-    /// 僵尸攻击延迟
-    /// </summary>
-    public float attackDelay = 0.2f;
-    /// <summary>
-    /// 僵尸攻击间隔
-    /// </summary>
-    public float attackInterval = 0.6f;
+    public int row;
 
     /// <summary>
     /// 走路动画的名字
     /// </summary>
-    public string walkName = "Zombie_Walk1";
+    public string walkName;
     /// <summary>
     /// 攻击动画的名字
     /// </summary>
@@ -77,7 +63,7 @@ public class Zombie : MonoBehaviour
     /// <summary>
     /// 身体中心组件
     /// </summary>
-    private Transform bodyCenterTransform;
+    public Transform bodyCenterTransform;
     /// <summary>
     /// 身体动画组件
     /// </summary>
@@ -105,7 +91,6 @@ public class Zombie : MonoBehaviour
         Walking,     // 走路
         Attacking,   // 攻击
         Dead         // 死亡
-        
     }
 
     /// <summary>
@@ -138,7 +123,7 @@ public class Zombie : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void Awake()
     {
         bodyTransform = transform.Find("Body");
         headTransform = transform.Find("Head");
@@ -146,6 +131,18 @@ public class Zombie : MonoBehaviour
         bodyAnimator = bodyTransform.GetComponent<Animator>();
         headAnimator = headTransform.GetComponent<Animator>();
         spriteRenderer = bodyTransform.GetComponent<SpriteRenderer>();
+    }
+
+    public void Init(ZombieInfo zombieInfo, int row, int sortingOrder, int walkIndex)
+    {
+        GetComponent<BoxCollider2D>().enabled = true;
+        this.zombieInfo = zombieInfo;
+        currentHP = zombieInfo.HP;
+        this.row = row;
+        bodyTransform.localPosition = new Vector3(0, 0.47f);
+        headTransform.GetComponent<SpriteRenderer>().sortingOrder = 
+            spriteRenderer.sortingOrder = sortingOrder;
+        walkName = "Zombie_Walk" + walkIndex;
         State = ZombieState.Walking;
     }
 
@@ -153,11 +150,11 @@ public class Zombie : MonoBehaviour
     /// 受到伤害
     /// </summary>
     /// <param name="damage">伤害值</param>
-    private void GetHurt(int damage)
+    public void GetHurt(int damage)
     {
-        HP -= damage;
+        currentHP -= damage;
         StartCoroutine(Shine());
-        if (HP <= dieHP)
+        if (currentHP <= zombieInfo.dieHP)
         {
             State = ZombieState.Dead;
         }
@@ -176,10 +173,10 @@ public class Zombie : MonoBehaviour
     /// <returns></returns>
     private IEnumerator Walk()
     {
-        bodyAnimator.CrossFadeInFixedTime(walkName, attackDelay);
+        bodyAnimator.CrossFadeInFixedTime(walkName, 0.2f);
         while (State == ZombieState.Walking)
         {
-            transform.Translate(Vector3.left * speed * Time.deltaTime);
+            transform.Translate(Vector3.left * zombieInfo.speed * Time.deltaTime);
 
             yield return 0;
         }
@@ -191,18 +188,18 @@ public class Zombie : MonoBehaviour
     /// <returns></returns>
     private IEnumerator Attack()
     {
-        bodyAnimator.CrossFadeInFixedTime(attackName, attackDelay);
-        yield return new WaitForSeconds(attackDelay);
+        bodyAnimator.CrossFadeInFixedTime(attackName, 0.2f);
+        yield return new WaitForSeconds(0.2f);
         while (State == ZombieState.Attacking)
         {
-            aimPlant.GetHurt(damage);
-            if (aimPlant.HP <= 0)
+            aimPlant.GetHurt(zombieInfo.damage);
+            if (aimPlant.currentHP <= 0)
             {
                 State = ZombieState.Walking;
             }
             else
             {
-                yield return new WaitForSeconds(attackInterval);
+                yield return new WaitForSeconds(zombieInfo.attackInterval);
             }
         }
     }
@@ -213,6 +210,7 @@ public class Zombie : MonoBehaviour
     /// <returns></returns>
     private IEnumerator Die(int dieMode)
     {
+        ZombieManager.Instance.RemoveZombie(this);
         switch (dieMode)
         {
             case 0:
@@ -228,8 +226,8 @@ public class Zombie : MonoBehaviour
         GetComponent<BoxCollider2D>().enabled = false;
         headAnimator.Play("Default");
         bodyAnimator.Play(dieName);
-        yield return new WaitForSeconds(1f);
-        Destroy(gameObject);
+        yield return new WaitForSeconds(2f);
+        SelfDestroy();
     }
 
     /// <summary>
@@ -239,9 +237,9 @@ public class Zombie : MonoBehaviour
     private IEnumerator LostHeadWalk()
     {
         float timer = 0;
-        while (timer < 1f)
+        while (timer < 2f)
         {
-            bodyTransform.Translate(Vector3.left * speed * Time.deltaTime);
+            bodyTransform.Translate(Vector3.left * zombieInfo.speed * Time.deltaTime);
             timer += Time.deltaTime;
             yield return 0;
         }
@@ -249,16 +247,16 @@ public class Zombie : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Bullet")
-        {
-            GetHurt(collision.GetComponent<Pea>().damage);
-            collision.GetComponent<Bullet>().IsHit = true;
-            collision.transform.position = bodyCenterTransform.position;
-        }
-        else if (collision.tag == "Plant")
+        if (collision.tag == "Plant")
         {
             aimPlant = collision.GetComponent<Plant>();
             State = ZombieState.Attacking;
         }
     }
+
+    private void SelfDestroy()
+    {
+        StopAllCoroutines();
+        PoolManager.Instance.PushGameObject(gameObject, zombieInfo.prefab);
+    }    
 }

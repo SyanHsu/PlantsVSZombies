@@ -21,3 +21,11 @@ MonoBehaviour:
     speed: 0.25
     damage: 40
     attackInterval: 0.4
+  - name: "\u8DEF\u969C\u50F5\u5C38"
+    zombieType: 1
+    prefab: {fileID: 1134153138012026604, guid: cae75266291b34b40893e7b67142a7f3, type: 3}
+    HP: 640
+    dieHP: 89
+    speed: 0.25
+    damage: 40
+    attackInterval: 0.4

@@ -38,3 +38,4 @@ MonoBehaviour:
     rotateSpeed: 360
     damage: 20
   sunPrefab: {fileID: 8117667669991594019, guid: 903a0c02eb52d22428424f67b1bf3f8f, type: 3}
+  shovelImage: {fileID: 2239521945227145621, guid: 3e42991cf4ce1c3429f7088f4a023d60, type: 3}

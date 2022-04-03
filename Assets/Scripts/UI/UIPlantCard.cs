@@ -210,11 +210,11 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         plantTranslucentImage.GetComponent<SpriteRenderer>().material.color = new Color(1, 1, 1, 0.6f);
         plantImage.GetComponent<SpriteRenderer>().sortingOrder = 0;
 
-        // 更改玩家状态
-        PlayerStatus.Instance.state = PlayerStatus.PlayerState.Planting;
+        // 鼠标指针不可改变
+        CursorManager.Instance.changable = false;
 
         // 得到鼠标位置
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mousePos;
 
         // 图片相对鼠标偏移量
         float deltaX = 0.08f;
@@ -251,16 +251,16 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             //按下鼠标左键时，若网格合理则种植植物，否则恢复可种植状态
             else if (Input.GetMouseButtonDown(0))
             {
-                PoolManager.Instance.PushGameObject(plantImage, plantInfo.image);
-                PoolManager.Instance.PushGameObject(plantTranslucentImage, plantInfo.image);
-                if (grid == null || grid.planted)
+                if (grid == null || !grid.planted)
                 {
-                    State = CardState.Plantable;
-                }
-                else
-                {
-                    PlantManager.Instance.Plant(plantInfo, grid);
-                    State = CardState.CDing;
+                    PoolManager.Instance.PushGameObject(plantImage, plantInfo.image);
+                    PoolManager.Instance.PushGameObject(plantTranslucentImage, plantInfo.image); 
+                    if (grid == null) State = CardState.Plantable;
+                    else
+                    {
+                        PlantManager.Instance.Plant(plantInfo, grid);
+                        State = CardState.CDing;
+                    }
                 }
             }
             // 按下鼠标右键时，恢复可种植状态
@@ -274,7 +274,7 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
 
         // 改回玩家状态
-        PlayerStatus.Instance.state = PlayerStatus.PlayerState.Default;
+        CursorManager.Instance.changable = true;
     }
 
     /// <summary>
@@ -283,6 +283,7 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     /// <param name="eventData"></param>
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (Time.timeScale == 0) return;
         // 显示解释信息
         showExpl = true;
 
@@ -293,7 +294,7 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         while (showExpl)
         {
-            if (PlayerStatus.Instance.state != PlayerStatus.PlayerState.Planting)
+            if (CursorManager.Instance.changable)
             {
                 // 显示解释文字和背景
                 explGO.SetActive(true);
@@ -343,6 +344,7 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     /// <param name="eventData"></param>
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (Time.timeScale == 0) return;
         // 不显示解释信息
         showExpl = false;
     }
@@ -353,7 +355,7 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     /// <param name="eventData"></param>
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (PlayerStatus.Instance.state == PlayerStatus.PlayerState.Planting) return;
+        if (!CursorManager.Instance.changable || Time.timeScale == 0) return;
 
         if (State != CardState.Plantable) return;
 

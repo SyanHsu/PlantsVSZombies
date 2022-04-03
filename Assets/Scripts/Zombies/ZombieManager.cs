@@ -69,8 +69,13 @@ public class ZombieManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            CreateZombie(zombieDict[ZombieType.Zombie]);
+            CreateZombie(ZombieType.ConeheadZombie);
         }
+    }
+
+    public void Init()
+    {
+        StartCoroutine(GenerateZombies());
     }
 
     /// <summary>
@@ -84,7 +89,7 @@ public class ZombieManager : MonoBehaviour
         }
     }
 
-    public void CreateZombie(ZombieInfo zombieInfo)
+    public void CreateZombie(ZombieType zombieType)
     {
         // 僵尸生成的位置
         int row = Random.Range(0, GridManager.Instance.gridNumY);
@@ -93,14 +98,75 @@ public class ZombieManager : MonoBehaviour
         Vector3 createPos = new Vector3(createPosX, createPosY);
 
         // 生成僵尸
-        Zombie createdZombie = PoolManager.Instance.GetGameObject(zombieInfo.prefab, createPos, transform).GetComponent<Zombie>();
-        createdZombie.Init(zombieInfo, row, zombieLayerOrder[row]++, Random.Range(1, 4));
-        if (zombieLayerOrder[row] == zombieMaxLayerOrder[row]) zombieLayerOrder[row] = zombieMinLayerOrder[row];
+        ZombieInfo zombieInfo = zombieDict[zombieType];
+        Zombie createdZombie = PoolManager.Instance.GetGameObject(zombieInfo.prefab, 
+            createPos, transform).GetComponent<Zombie>();
+        if (zombieType == ZombieType.Zombie)
+            createdZombie.Init(zombieInfo, row, zombieLayerOrder[row]++, Random.Range(1, 4));
+        else createdZombie.Init(zombieInfo, row, zombieLayerOrder[row]++);
+        if (zombieLayerOrder[row] == zombieMaxLayerOrder[row])
+            zombieLayerOrder[row] = zombieMinLayerOrder[row];
         zombieLists[row].Add(createdZombie);
     }
 
     public void RemoveZombie(Zombie zombie)
     {
         zombieLists[zombie.row].Remove(zombie);
+    }
+
+    private bool CheckZombie()
+    {
+        for (int i = 0; i < GridManager.Instance.gridNumY; i++)
+        {
+            if (zombieLists[i].Count > 0) return true;
+        }
+        return false;
+    }
+
+    private IEnumerator GenerateZombies()
+    {
+        float zombieInterval = 20f;
+        for (int i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(zombieInterval);
+            CreateZombie(ZombieType.Zombie);
+        }
+        yield return new WaitForSeconds(zombieInterval);
+        CreateZombie(ZombieType.Zombie);
+        yield return new WaitForSeconds(1f);
+        CreateZombie(ZombieType.Zombie);
+        for (int i = 0; i < 2; i++)
+        {
+            yield return new WaitForSeconds(zombieInterval);
+            CreateZombie(ZombieType.ConeheadZombie);
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(zombieInterval);
+            CreateZombie(ZombieType.ConeheadZombie);
+            yield return new WaitForSeconds(1f);
+            CreateZombie(ZombieType.Zombie);
+        }
+        yield return new WaitForSeconds(zombieInterval);
+        GameObject finalWaveGO = GameController.Instance.transform.Find("FinalWave").gameObject;
+        finalWaveGO.SetActive(true);
+        finalWaveGO.GetComponent<Animator>().Play(0);
+        yield return new WaitForSeconds(3f);
+        finalWaveGO.SetActive(false);
+        for (int i = 0; i < 2; i++)
+        {
+            CreateZombie(ZombieType.ConeheadZombie);
+            yield return new WaitForSeconds(1f);
+        }
+        for (int i = 0; i < 7; i++)
+        {
+            CreateZombie(ZombieType.Zombie);
+            yield return new WaitForSeconds(1f);
+        }
+        while (CheckZombie())
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        GameController.Instance.WinGame();
     }
 }

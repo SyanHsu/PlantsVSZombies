@@ -7,5 +7,5 @@ using UnityEngine;
 /// </summary>
 public enum BulletType
 {
-    Pea   //Íã¶¹×Óµ¯
+    Pea,         // Íã¶¹×Óµ¯
 }

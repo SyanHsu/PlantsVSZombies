@@ -180,20 +180,17 @@ public class Sun : MonoBehaviour
         float flySpeed = 20f;
         float leftDist;
         // 若未到UI处，则继续飞
-        do
+        while (transform.position.y < UIManager.Instance.UISunPosition.y)
         {
             leftDist = Vector3.Distance(transform.position, UIManager.Instance.UISunPosition);
             if (leftDist < 1f)
             {
                 sunSprite.material.color = new Color(1, 1, 1, 0.4f + leftDist / 2);
                 transform.localScale = new Vector3(0.5f + leftDist / 2, 0.5f + leftDist / 2);
-                transform.Translate(Vector3.Normalize(UIManager.Instance.UISunPosition - 
-                    transform.position) * flySpeed * leftDist * Time.deltaTime);
             }
-            else transform.Translate(Vector3.Normalize(UIManager.Instance.UISunPosition - 
-                    transform.position) * flySpeed * Time.deltaTime);
+            transform.Translate(Vector3.Normalize(UIManager.Instance.UISunPosition - transform.position) * flySpeed * Time.deltaTime);
             yield return 0;
-        } while (leftDist > 0.1f);
+        } ;
 
         // 游戏的太阳数增加
         PlayerStatus.Instance.SunNum += sunNum;
@@ -207,7 +204,7 @@ public class Sun : MonoBehaviour
     /// </summary>
     private void OnMouseEnter()
     {
-        if (PlayerStatus.Instance.state == PlayerStatus.PlayerState.Planting) return;
+        if (!CursorManager.Instance.changable || Time.timeScale == 0) return;
 
         // 设置鼠标指针
         CursorManager.Instance.SetCursorLink();
@@ -219,7 +216,7 @@ public class Sun : MonoBehaviour
     /// </summary>
     private void OnMouseExit()
     {
-        if (PlayerStatus.Instance.state == PlayerStatus.PlayerState.Planting) return;
+        if (!CursorManager.Instance.changable || Time.timeScale == 0) return;
 
         // 设置鼠标指针
         CursorManager.Instance.SetCursorNormal();
@@ -231,7 +228,7 @@ public class Sun : MonoBehaviour
     /// </summary>
     private void OnMouseDown()
     {
-        if (PlayerStatus.Instance.state == PlayerStatus.PlayerState.Planting) return;
+        if (!CursorManager.Instance.changable || Time.timeScale == 0) return;
 
         // 状态更改为飞行
         State = SunState.Flying;

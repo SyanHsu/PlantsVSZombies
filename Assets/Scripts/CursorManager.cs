@@ -17,9 +17,15 @@ public class CursorManager : MonoBehaviour
     /// </summary>
     public Texture2D linkCursorTexture;
 
+    /// <summary>
+    /// 可改变的
+    /// </summary>
+    public bool changable;
+
     private void Awake()
     {
         Instance = this;
+        changable = true;
     }
 
     /// <summary>

@@ -22,4 +22,9 @@ public class PlantConf : ScriptableObject
     /// 阳光预制体
     /// </summary>
     public GameObject sunPrefab;
+
+    /// <summary>
+    /// 铲子图片
+    /// </summary>
+    public GameObject shovelImage;
 }

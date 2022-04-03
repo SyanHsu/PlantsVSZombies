@@ -10,18 +10,7 @@ public class PoolManager
     /// <summary>
     /// 单例模式
     /// </summary>
-    private static PoolManager instance;
-    public static PoolManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = new PoolManager();
-            }
-            return instance;
-        }
-    }
+    public static PoolManager Instance;
 
     /// <summary>
     /// 对象池字典

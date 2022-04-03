@@ -8,6 +8,5 @@ using UnityEngine;
 public enum ZombieType
 {
     Zombie,           // ÆÕÍ¨½©Ê¬
-    FlagZombie,       // ÆìÖÄ½©Ê¬
     ConeheadZombie,   // Â·ÕÏ½©Ê¬
 }

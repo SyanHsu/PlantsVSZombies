@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
     /// <summary>
     /// 游戏状态枚举
     /// </summary>
-    private enum GameState
+    public enum GameState
     {
         Ready,     // 准备
         Gaming,    // 游戏中
@@ -28,7 +28,7 @@ public class GameController : MonoBehaviour
     /// <summary>
     /// 游戏状态
     /// </summary>
-    private GameState State
+    public GameState State
     {
         get => state;
         set
@@ -51,11 +51,6 @@ public class GameController : MonoBehaviour
     }
 
     /// <summary>
-    /// UI面板
-    /// </summary>
-    private GameObject UIPanel;
-
-    /// <summary>
     /// 游戏中的植物种类
     /// </summary>
     private PlantType[] plantTypes;
@@ -73,15 +68,37 @@ public class GameController : MonoBehaviour
     /// </summary>
     private float gamingCameraPosX = -1.4f;
 
+    /// <summary>
+    /// 僵尸展示
+    /// </summary>
+    private GameObject showZombies;
+    /// <summary>
+    /// 准备安放植物的文字物体
+    /// </summary>
+    private GameObject preparePlantGO;
+    /// <summary>
+    /// 僵尸吃掉脑子的图片背景
+    /// </summary>
+    private SpriteRenderer brainLostBGSprite;
+    /// <summary>
+    /// 僵尸吃掉脑子的图片
+    /// </summary>
+    private Transform brainLost;
+
     private void Awake()
     {
         Instance = this;
+        showZombies = transform.Find("ShowZombies").gameObject;
+        preparePlantGO = transform.Find("PreparePlant").gameObject;
+        brainLostBGSprite = transform.Find("BrainLostBG").GetComponent<SpriteRenderer>();
+        brainLost = transform.Find("BrainLostBG/BrainLost");
     }
 
     private void Start()
     {
-        UIPanel = UIManager.Instance.gameObject;
         plantTypes = new PlantType[UIManager.Instance.cardNum];
+
+        // 状态初始为准备
         State = GameState.Ready;
     }
 
@@ -91,7 +108,7 @@ public class GameController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator Ready()
     {
-        UIPanel.SetActive(false);
+        UIManager.Instance.mainPanelGO.SetActive(false);
         CameraMove.Instance.transform.position = new Vector3
             (leftCameraPosX, 0, CameraMove.Instance.transform.position.z);
         yield return new WaitForSeconds(1f);
@@ -103,8 +120,12 @@ public class GameController : MonoBehaviour
         plantTypes[1] = PlantType.PeaShooter;
 
         yield return StartCoroutine(CameraMove.Instance.Move(gamingCameraPosX));
-        yield return new WaitForSeconds(1f);
+        preparePlantGO.SetActive(true);
+        preparePlantGO.GetComponent<Animator>().Play(0);
+        yield return new WaitForSeconds(3f);
+        preparePlantGO.SetActive(false);
 
+        showZombies.SetActive(false);
         State = GameState.Gaming;
     }
 
@@ -114,9 +135,12 @@ public class GameController : MonoBehaviour
     /// <returns></returns>
     private void StartGame()
     {
-        UIPanel.SetActive(true);
+        UIManager.Instance.mainPanelGO.SetActive(true);
         UIManager.Instance.Init(plantTypes);
+        PlayerStatus.Instance.SunNum = 50;
+        PoolManager.Instance = new PoolManager();
         SkySunManager.Instance.Init();
+        ZombieManager.Instance.Init();
     }
 
     /// <summary>
@@ -125,6 +149,30 @@ public class GameController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator GameOver()
     {
+        UIManager.Instance.mainPanelGO.SetActive(false);
+        Time.timeScale = 0;
         yield return StartCoroutine(CameraMove.Instance.Move(leftCameraPosX));
+        yield return new WaitForSecondsRealtime(1f);
+        brainLostBGSprite.gameObject.SetActive(true);
+        brainLostBGSprite.material.color = Color.clear;
+        brainLost.localScale = Vector3.zero;
+        Color aimColor = new Color(0f, 0f, 0f, 0.8f);
+        Vector3 aimScale = new Vector3(0.0724f, 0.1f, 1f);
+        float timer = 0f;
+        while (timer < 1f)
+        {
+            timer += Time.unscaledDeltaTime;
+            brainLostBGSprite.material.color = Color.Lerp(Color.clear, aimColor, timer);
+            brainLost.localScale = Vector3.Lerp(Vector3.zero, aimScale, timer);
+            yield return 0;
+        }
+        yield return new WaitForSecondsRealtime(1f);
+        brainLostBGSprite.gameObject.SetActive(false);
+        UIManager.Instance.diePanelGO.SetActive(true);
+    }
+
+    public void WinGame()
+    {
+        UIManager.Instance.winPanelGO.SetActive(true);
     }
 }

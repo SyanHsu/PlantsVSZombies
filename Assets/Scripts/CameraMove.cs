@@ -27,7 +27,7 @@ public class CameraMove : MonoBehaviour
         while (Mathf.Abs(aimPosX - transform.position.x) > 0.5f)
         {
             transform.position = new Vector3(Mathf.Lerp(transform.position.x, aimPosX, 
-                cameraSpeed * Time.deltaTime), 0, transform.position.z);
+                cameraSpeed * Time.unscaledDeltaTime), 0, transform.position.z);
             yield return 0;
         }
     }

@@ -9,5 +9,8 @@ public enum PlantType
 {
     Default,
     SunFlower,   // 向日葵
-    PeaShooter   // 豌豆射手
+    PeaShooter,  // 豌豆射手
+    Cherry,      // 樱桃炸弹
+    WallNut,     // 坚果
+    Squash       // 窝瓜
 }

@@ -55,6 +55,13 @@ public class GameController : MonoBehaviour
     /// </summary>
     private PlantType[] plantTypes;
 
+    private AudioSource audioSource;
+
+    /// <summary>
+    /// ÉùÒôÆ¬¶ÎÅäÖÃ
+    /// </summary>
+    public AudioClipConf audioClipConf;
+
     /// <summary>
     /// ×î×ó¶ËµÄÉãÏñ»úxÖáÎ»ÖÃ
     /// </summary>
@@ -88,10 +95,12 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        audioClipConf = Resources.Load<AudioClipConf>("AudioClipConf");
         showZombies = transform.Find("ShowZombies").gameObject;
         preparePlantGO = transform.Find("PreparePlant").gameObject;
         brainLostBGSprite = transform.Find("BrainLostBG").GetComponent<SpriteRenderer>();
         brainLost = transform.Find("BrainLostBG/BrainLost");
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -99,6 +108,12 @@ public class GameController : MonoBehaviour
         plantTypes = new PlantType[UIManager.Instance.cardNum];
 
         // ×´Ì¬³õÊ¼Îª×¼±¸
+        //State = GameState.Ready;
+        plantTypes[0] = PlantType.SunFlower;
+        plantTypes[1] = PlantType.PeaShooter;
+        plantTypes[2] = PlantType.Cherry;
+        plantTypes[3] = PlantType.WallNut;
+        plantTypes[4] = PlantType.Squash;
         State = GameState.Ready;
     }
 
@@ -118,8 +133,13 @@ public class GameController : MonoBehaviour
 
         plantTypes[0] = PlantType.SunFlower;
         plantTypes[1] = PlantType.PeaShooter;
+        plantTypes[2] = PlantType.Cherry;
+        plantTypes[3] = PlantType.WallNut;
 
         yield return StartCoroutine(CameraMove.Instance.Move(gamingCameraPosX));
+
+        audioSource.clip = audioClipConf.readyClip;
+        audioSource.Play();
         preparePlantGO.SetActive(true);
         preparePlantGO.GetComponent<Animator>().Play(0);
         yield return new WaitForSeconds(3f);
@@ -135,6 +155,9 @@ public class GameController : MonoBehaviour
     /// <returns></returns>
     private void StartGame()
     {
+        audioSource.clip = audioClipConf.gameBG;
+        audioSource.loop = true;
+        audioSource.Play();
         UIManager.Instance.mainPanelGO.SetActive(true);
         UIManager.Instance.Init(plantTypes);
         PlayerStatus.Instance.SunNum = 50;
@@ -149,6 +172,9 @@ public class GameController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator GameOver()
     {
+        audioSource.clip = audioClipConf.gameOverClip;
+        audioSource.loop = false;
+        audioSource.Play();
         UIManager.Instance.mainPanelGO.SetActive(false);
         Time.timeScale = 0;
         yield return StartCoroutine(CameraMove.Instance.Move(leftCameraPosX));
@@ -173,6 +199,9 @@ public class GameController : MonoBehaviour
 
     public void WinGame()
     {
+        audioSource.clip = audioClipConf.gameWinClip;
+        audioSource.loop = false;
+        audioSource.Play();
         UIManager.Instance.winPanelGO.SetActive(true);
     }
 }

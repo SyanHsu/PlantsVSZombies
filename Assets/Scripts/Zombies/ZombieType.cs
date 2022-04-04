@@ -9,4 +9,5 @@ public enum ZombieType
 {
     Zombie,           // ÆÕÍ¨½©Ê¬
     ConeheadZombie,   // Â·ÕÏ½©Ê¬
+    BucketheadZombie  // ÌúÍ°½©Ê¬
 }

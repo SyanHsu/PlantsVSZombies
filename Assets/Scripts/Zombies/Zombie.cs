@@ -83,6 +83,8 @@ public class Zombie : MonoBehaviour
     /// </summary>
     protected SpriteRenderer spriteRenderer;
 
+    private AudioSource audioSource;
+
     /// <summary>
     /// À¿Õˆ∑Ω Ω
     /// </summary>
@@ -139,6 +141,7 @@ public class Zombie : MonoBehaviour
         bodyAnimator = bodyTransform.GetComponent<Animator>();
         headAnimator = headTransform.GetComponent<Animator>();
         spriteRenderer = bodyTransform.GetComponent<SpriteRenderer>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public virtual void Init(ZombieInfo zombieInfo, int row, int sortingOrder, int walkIndex = 0)
@@ -150,9 +153,8 @@ public class Zombie : MonoBehaviour
         bodyTransform.localPosition = new Vector3(0, 0.47f);
         headTransform.GetComponent<SpriteRenderer>().sortingOrder = 
             spriteRenderer.sortingOrder = sortingOrder;
-        headAnimator.Play("Default");
-        if (walkIndex == 0) walkName = "ConeheadZombie_Walk";
-        else walkName = "Zombie_Walk" + walkIndex;
+        headTransform.gameObject.SetActive(false);
+        if (walkIndex > 0) walkName = "Zombie_Walk" + walkIndex;
 
         State = ZombieState.Walking;
     }
@@ -199,9 +201,12 @@ public class Zombie : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator Attack()
     {
+        audioSource.clip = GameController.Instance.audioClipConf.zombieEatingClip;
+        
         bodyAnimator.CrossFadeInFixedTime(attackName, 0.2f);
         dieMode = 1;
-        float timer = 0;
+        float timer = zombieInfo.attackInterval;
+        yield return new WaitForSeconds(0.4f);
         while (State == ZombieState.Attacking)
         {
             if (!aimPlant.gameObject.activeInHierarchy || aimPlant.currentHP <= 0)
@@ -211,6 +216,7 @@ public class Zombie : MonoBehaviour
             timer += Time.deltaTime;
             if (timer >= zombieInfo.attackInterval)
             {
+                audioSource.Play();
                 aimPlant.GetHurt(zombieInfo.damage);
                 timer = 0;
             }
@@ -237,6 +243,7 @@ public class Zombie : MonoBehaviour
                     bodyAnimator.Play(lostHeadAttackName, 0, bodyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime);
                     break;
             }
+            headTransform.gameObject.SetActive(true);
             headAnimator.Play(lostHeadName);
             yield return new WaitForSeconds(1.5f);
             GetComponent<BoxCollider2D>().enabled = false;
@@ -246,9 +253,16 @@ public class Zombie : MonoBehaviour
         }
         else if (dieMode == 2)
         {
+            headTransform.gameObject.SetActive(true);
             GetComponent<BoxCollider2D>().enabled = false;
             bodyAnimator.Play(dieName);
             headAnimator.Play(lostHeadName);
+            yield return new WaitForSeconds(2f);
+        }
+        else if (dieMode == 3)
+        {
+            GetComponent<BoxCollider2D>().enabled = false;
+            bodyAnimator.Play(boomDieName);
             yield return new WaitForSeconds(2f);
         }
         SelfDestroy();

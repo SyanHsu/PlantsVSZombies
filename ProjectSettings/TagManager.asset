@@ -10,6 +10,7 @@ TagManager:
   - Bullet
   - Zombie
   - RightBoundary
+  - BucketheadZombie
   layers:
   - Default
   - TransparentFX

@@ -49,13 +49,17 @@ public class SkySunManager : MonoBehaviour
     /// </summary>
     private float stopPosYMax = 2.5f;
 
+    public AudioSource audioSource;
+
     private void Awake()
     {
         Instance = this;
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void Init()
     {
+        audioSource.clip = GameController.Instance.audioClipConf.sunClip;
         InvokeRepeating("CreateSun", startTime, sunInterval);
     }
 

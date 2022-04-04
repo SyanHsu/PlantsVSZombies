@@ -9,8 +9,11 @@ public class BulletManager : MonoBehaviour
     /// </summary>
     public static BulletManager Instance;
 
+    public AudioSource audioSource;
+
     private void Awake()
     {
         Instance = this;
+        audioSource = GetComponent<AudioSource>();
     }
 }

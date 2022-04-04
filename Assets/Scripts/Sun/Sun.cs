@@ -177,6 +177,7 @@ public class Sun : MonoBehaviour
     /// </summary>
     private IEnumerator Fly()
     {
+        SkySunManager.Instance.audioSource.Play();
         float flySpeed = 20f;
         float leftDist;
         // 若未到UI处，则继续飞

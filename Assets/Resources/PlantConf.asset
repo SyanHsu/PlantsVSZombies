@@ -29,6 +29,30 @@ MonoBehaviour:
     neededSun: 100
     CDTime: 7.5
     HP: 300
+  - name: "\u6A31\u6843\u70B8\u5F39"
+    plantType: 3
+    prefab: {fileID: 9124240105630409997, guid: 11b290e2997da8743ac2ae63cba47214, type: 3}
+    image: {fileID: 4681944641039969643, guid: a0453524ad6d5ab4f9a7fca4e7e8db54, type: 3}
+    card: {fileID: 21300000, guid: deb823e7602820b4697ab3b40a71400d, type: 3}
+    neededSun: 150
+    CDTime: 50
+    HP: 300
+  - name: "\u575A\u679C\u5899"
+    plantType: 4
+    prefab: {fileID: 3087629816420097292, guid: 6f9daa33b4d431043ac126a659d99251, type: 3}
+    image: {fileID: 7226535413180862512, guid: 38dc3e598f66d7d4d81a020f37ab2e66, type: 3}
+    card: {fileID: 21300000, guid: c27bc895b5c3f72488af57515759d72d, type: 3}
+    neededSun: 50
+    CDTime: 30
+    HP: 4000
+  - name: "\u7A9D\u74DC"
+    plantType: 5
+    prefab: {fileID: 5004326247792528130, guid: 0b38397917debf349afe164a8731e0dc, type: 3}
+    image: {fileID: 912033389586693692, guid: b4789d001eda83643bbb28c53b3c33ed, type: 3}
+    card: {fileID: 21300000, guid: e0a3b45ce2594d747a505577d35b1e92, type: 3}
+    neededSun: 50
+    CDTime: 30
+    HP: 300
   bulletInfos:
   - bulletType: 0
     prefab: {fileID: 343136470815239684, guid: e7e03e3da608b4d4cbde9c1a536b494d, type: 3}

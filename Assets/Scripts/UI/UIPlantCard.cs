@@ -70,6 +70,8 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     /// </summary>
     private GameObject explGO;
 
+    private AudioSource audioSource;
+
     /// <summary>
     /// 植物种类
     /// </summary>
@@ -93,26 +95,14 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private void Awake()
     {
         // 得到对应的图片组件
-        Image[] images = GetComponentsInChildren<Image>();
-        foreach (var item in images)
-        {
-            if (item.name.EndsWith("Gray"))
-            {
-                grayImage = item;
-            }
-            else if (item.name.EndsWith("Dark"))
-            {
-                darkImage = item;
-            }
-            else if (item.name.EndsWith("Bright"))
-            {
-                brightImage = item;
-            }
-        }
+        grayImage = transform.Find("Image_Gray").GetComponent<Image>();
+        darkImage = transform.Find("Image_Dark").GetComponent<Image>();
+        brightImage = transform.Find("Image_Bright").GetComponent<Image>();
         explGO = transform.Find("Explaination").gameObject;
+        audioSource = GetComponent<AudioSource>();
     }
 
-    public void Init(PlantType plantType = PlantType.Default)
+    public void Init(PlantType plantType)
     {
         this.plantType = plantType;
         if (plantType == PlantType.Default) return;
@@ -120,6 +110,7 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         // 得到对应的植物信息
         plantInfo = PlantManager.Instance.plantDict[plantType];
         grayImage.sprite = darkImage.sprite = brightImage.sprite = plantInfo.card;
+        grayImage.gameObject.SetActive(true);
 
         // 灰图片组件的射线检测目标设为true
         grayImage.raycastTarget = true;
@@ -197,6 +188,9 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     /// <returns></returns>
     private IEnumerator Planting()
     {
+        audioSource.clip = GameController.Instance.audioClipConf.chooseClip;
+        audioSource.Play();
+
         // 显示灰图片
         brightImage.enabled = false;
         darkImage.fillAmount = 0;
@@ -258,6 +252,8 @@ public class UIPlantCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                     if (grid == null) State = CardState.Plantable;
                     else
                     {
+                        audioSource.clip = GameController.Instance.audioClipConf.plantClip;
+                        audioSource.Play();
                         PlantManager.Instance.Plant(plantInfo, grid);
                         State = CardState.CDing;
                     }

@@ -1,7 +1,58 @@
 fileFormatVersion: 2
 guid: bea12c4f3bd22994981ef9b69d4e8315
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -7696102152159170646
+    second: Squash_default_0
+  - first:
+      213: -5277507126399586887
+    second: Squash_default_1
+  - first:
+      213: -9067592564474116166
+    second: Squash_default_2
+  - first:
+      213: 512238266005635745
+    second: Squash_default_3
+  - first:
+      213: 3343963175316159644
+    second: Squash_default_4
+  - first:
+      213: 722091061718803052
+    second: Squash_default_5
+  - first:
+      213: 3320209572410395036
+    second: Squash_default_6
+  - first:
+      213: 4370025727044070581
+    second: Squash_default_7
+  - first:
+      213: -7105371054869473029
+    second: Squash_default_8
+  - first:
+      213: 5296225311805025425
+    second: Squash_default_9
+  - first:
+      213: -9042124064182912873
+    second: Squash_default_10
+  - first:
+      213: -416833682414252008
+    second: Squash_default_11
+  - first:
+      213: 8312847405029254404
+    second: Squash_default_12
+  - first:
+      213: -5808848049131300213
+    second: Squash_default_13
+  - first:
+      213: 6602043007869314034
+    second: Squash_default_14
+  - first:
+      213: -3737968554782761926
+    second: Squash_default_15
+  - first:
+      213: -6414080789747956543
+    second: Squash_default_16
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -41,12 +92,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 55
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -75,9 +126,378 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Squash_default_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 938
+        width: 66
+        height: 85
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aafee694ed3f13590800000000000000
+      internalID: -7696102152159170646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Squash_default_1
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 944
+        width: 73
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bd2c5fda3782c6b0800000000000000
+      internalID: -5277507126399586887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Squash_default_2
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 944
+        width: 71
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab70c82da90792280800000000000000
+      internalID: -9067592564474116166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Squash_default_3
+      rect:
+        serializedVersion: 2
+        x: 218
+        y: 940
+        width: 67
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a2c0ad2df5db1700800000000000000
+      internalID: 512238266005635745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Squash_default_4
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 940
+        width: 68
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9cf4b67ac4286e20800000000000000
+      internalID: 3343963175316159644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Squash_default_5
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 850
+        width: 66
+        height: 85
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c62eb3daef1650a00800000000000000
+      internalID: 722091061718803052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Squash_default_6
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 856
+        width: 66
+        height: 85
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c998f5fc301c31e20800000000000000
+      internalID: 3320209572410395036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Squash_default_7
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 860
+        width: 71
+        height: 81
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bca7cfce3375ac30800000000000000
+      internalID: 4370025727044070581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Squash_default_8
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 854
+        width: 68
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf89925eba6a46d90800000000000000
+      internalID: -7105371054869473029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Squash_default_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 766
+        width: 71
+        height: 81
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19c22984cd8ff7940800000000000000
+      internalID: 5296225311805025425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Squash_default_10
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 774
+        width: 69
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 798bd53221ce38280800000000000000
+      internalID: -9042124064182912873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Squash_default_11
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 776
+        width: 71
+        height: 81
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 810d74d69fb173af0800000000000000
+      internalID: -416833682414252008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Squash_default_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 682
+        width: 69
+        height: 82
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 405ebc8ebaa2d5370800000000000000
+      internalID: 8312847405029254404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Squash_default_13
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 682
+        width: 70
+        height: 82
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8ade45d973d26fa0800000000000000
+      internalID: -5808848049131300213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Squash_default_14
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 690
+        width: 67
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f3e6e3f22b2f9b50800000000000000
+      internalID: 6602043007869314034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Squash_default_15
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 692
+        width: 69
+        height: 82
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3cd79e6761102cc0800000000000000
+      internalID: -3737968554782761926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Squash_default_16
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 606
+        width: 66
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c48a66418b9cf6a0800000000000000
+      internalID: -6414080789747956543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []

@@ -25,6 +25,8 @@ public class ZombieManager : MonoBehaviour
 
     public List<Zombie>[] zombieLists;
 
+    protected AudioSource audioSource;
+
     /// <summary>
     /// ½©Ê¬µÄ²ã¼¶Ë³Ðò
     /// </summary>
@@ -50,6 +52,19 @@ public class ZombieManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            CreateRandomZombie();
+        }
+    }
+
+    public void Init()
+    {
         zombieConf = Resources.Load<ZombieConf>("ZombieConf");
         zombieDict = new Dictionary<ZombieType, ZombieInfo>();
         CreateDict();
@@ -63,18 +78,6 @@ public class ZombieManager : MonoBehaviour
             zombieLayerOrder[i] = zombieMinLayerOrder[i] = 100 * (GridManager.Instance.gridNumY - i - 1);
             zombieMaxLayerOrder[i] = 100 * (GridManager.Instance.gridNumY - i);
         }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            CreateZombie(ZombieType.ConeheadZombie);
-        }
-    }
-
-    public void Init()
-    {
         StartCoroutine(GenerateZombies());
     }
 
@@ -86,6 +89,23 @@ public class ZombieManager : MonoBehaviour
         foreach (var item in zombieConf.zombieInfos)
         {
             zombieDict.Add(item.zombieType, item);
+        }
+    }
+
+    public void CreateRandomZombie()
+    {
+        int randomNum = Random.Range(0, 3);
+        switch (randomNum)
+        {
+            case 0:
+                CreateZombie(ZombieType.Zombie);
+                break;
+            case 1:
+                CreateZombie(ZombieType.ConeheadZombie);
+                break;
+            case 2:
+                CreateZombie(ZombieType.BucketheadZombie);
+                break;
         }
     }
 
@@ -114,7 +134,7 @@ public class ZombieManager : MonoBehaviour
         zombieLists[zombie.row].Remove(zombie);
     }
 
-    private bool CheckZombie()
+    protected bool CheckZombie()
     {
         for (int i = 0; i < GridManager.Instance.gridNumY; i++)
         {
@@ -123,10 +143,14 @@ public class ZombieManager : MonoBehaviour
         return false;
     }
 
-    private IEnumerator GenerateZombies()
+    protected virtual IEnumerator GenerateZombies()
     {
         float zombieInterval = 20f;
-        for (int i = 0; i < 3; i++)
+        yield return new WaitForSeconds(zombieInterval);
+        audioSource.clip = GameController.Instance.audioClipConf.zombieComingClip;
+        audioSource.Play();
+        CreateZombie(ZombieType.Zombie);
+        for (int i = 0; i < 2; i++)
         {
             yield return new WaitForSeconds(zombieInterval);
             CreateZombie(ZombieType.Zombie);
@@ -149,6 +173,8 @@ public class ZombieManager : MonoBehaviour
         }
         yield return new WaitForSeconds(zombieInterval);
         GameObject finalWaveGO = GameController.Instance.transform.Find("FinalWave").gameObject;
+        audioSource.clip = GameController.Instance.audioClipConf.hugeWaveClip;
+        audioSource.Play();
         finalWaveGO.SetActive(true);
         finalWaveGO.GetComponent<Animator>().Play(0);
         yield return new WaitForSeconds(3f);

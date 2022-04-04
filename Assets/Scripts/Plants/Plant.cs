@@ -44,7 +44,7 @@ public class Plant : MonoBehaviour
     ///  ‹µΩ…À∫¶
     /// </summary>
     /// <param name="damage">…À∫¶÷µ</param>
-    public void GetHurt(int damage)
+    public virtual void GetHurt(int damage)
     {
         if (currentHP <= 0) return;
         currentHP -= damage;
@@ -62,7 +62,7 @@ public class Plant : MonoBehaviour
         spriteRenderer.material.color = Color.white;
     }
 
-    private void SelfDestroy()
+    protected void SelfDestroy()
     {
         StopAllCoroutines();
         PlantManager.Instance.RemovePlant(this);

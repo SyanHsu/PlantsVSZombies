@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beae98b81fd6c3f4db22995839b89cd8, type: 3}
+  m_Name: AudioClipConf
+  m_EditorClassIdentifier: 
+  readyBG: {fileID: 8300000, guid: 63c1570171b83054995e6ff44c3987c2, type: 3}
+  readyClip: {fileID: 8300000, guid: 268168abf0c97b9449d0746cadd46ad3, type: 3}
+  gameBG: {fileID: 8300000, guid: 3762b81d5ede75d45981737c0c5189a5, type: 3}
+  pauseClip: {fileID: 8300000, guid: b627f578f9e92a448848c591f0f00f3a, type: 3}
+  gameOverClip: {fileID: 8300000, guid: 4d55a11ab67e2b6499d4b31886647f27, type: 3}
+  gameWinClip: {fileID: 8300000, guid: ebead1f0127668b4abac71a52ae3fce5, type: 3}
+  shovelClip: {fileID: 8300000, guid: c22ba31d3689ada409e39c618e7c7708, type: 3}
+  sunClip: {fileID: 8300000, guid: 0254e0471fd5b2745b70eba41b278077, type: 3}
+  chooseClip: {fileID: 8300000, guid: 2749be38303b97c47a8201b80d71e067, type: 3}
+  plantClip: {fileID: 8300000, guid: cae4c9e57297f7f4b87518cff329c78c, type: 3}
+  hugeWaveClip: {fileID: 8300000, guid: f7b78de7312f02f4d894b3ad69c826f6, type: 3}
+  zombieComingClip: {fileID: 8300000, guid: 9c7773a31296dbe46893e2866b51c007, type: 3}
+  zombieEatingClip: {fileID: 8300000, guid: 95cec4a21ee77a444963e098a4bae57b, type: 3}
+  peaHitClip: {fileID: 8300000, guid: 6d85baddeb37c2e43bb8f351a38c1ea7, type: 3}
+  peaHitBucketClip: {fileID: 8300000, guid: 73fcaca1fdef9f24ab57d65379a17fd1, type: 3}
+  LawnMowerClip: {fileID: 8300000, guid: c0b5d72a61a11384d93c62fc5c827eaa, type: 3}

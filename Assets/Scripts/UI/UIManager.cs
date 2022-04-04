@@ -40,6 +40,8 @@ public class UIManager : MonoBehaviour
     private Button menuButton;
     private Image menuButtonImage;
 
+    private AudioSource audioSource;
+
     /// <summary>
     /// Ö÷Ãæ°å
     /// </summary>
@@ -69,6 +71,7 @@ public class UIManager : MonoBehaviour
         menuPanelGO = transform.Find("Canvas_MenuPanel").gameObject;
         diePanelGO = transform.Find("Canvas_DiePanel").gameObject;
         winPanelGO = transform.Find("Canvas_WinPanel").gameObject;
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void Init(PlantType[] plantTypes)
@@ -88,6 +91,8 @@ public class UIManager : MonoBehaviour
 
     public void MenuButtonOnClick()
     {
+        audioSource.clip = GameController.Instance.audioClipConf.pauseClip;
+        audioSource.Play();
         Time.timeScale = 0;
         menuButton.interactable = false;
         menuButtonImage.raycastTarget = false;
@@ -98,7 +103,7 @@ public class UIManager : MonoBehaviour
     {
         Time.timeScale = 1;
         CursorManager.Instance.SetCursorNormal();
-        SceneManager.LoadScene("Scene_Game");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void MainMenuButtonOnClick()

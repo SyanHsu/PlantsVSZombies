@@ -30,6 +30,8 @@ public class ShovelManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     private GameObject shovelGO;
 
+    private AudioSource audioSource;
+
     /// <summary>
     /// 鼠标按钮按下
     /// </summary>
@@ -39,6 +41,8 @@ public class ShovelManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         // 得到对应的铲子组件
         shovelGO = transform.Find("Shovel").gameObject;
+        audioSource = GetComponent<AudioSource>();
+
         IsUsing = false;
     }
 
@@ -49,6 +53,8 @@ public class ShovelManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     /// <returns></returns>
     private IEnumerator UseShovel()
     {
+        audioSource.clip = GameController.Instance.audioClipConf.shovelClip;
+        audioSource.Play();
         // 原铲子不可见
         shovelGO.SetActive(false);
 
@@ -87,6 +93,8 @@ public class ShovelManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             {
                 if (Input.GetMouseButtonDown(0) && grid != null && grid.planted)
                 {
+                    audioSource.clip = GameController.Instance.audioClipConf.plantClip;
+                    audioSource.Play();
                     PlantManager.Instance.RemovePlant(grid.plantedPlant);
                     
                 }

@@ -11,6 +11,7 @@ public class ConeheadZombie : Zombie
     public override void Init(ZombieInfo zombieInfo, int row, int sortingOrder, int walkIndex = 0)
     {
         withConehead = true;
+        walkName = "ConeheadZombie_Walk";
         attackName = "ConeheadZombie_Attack";
         base.Init(zombieInfo, row, sortingOrder);
     }
